@@ -1,72 +1,151 @@
 ﻿using System.Collections.Generic;
+using System;
 
-namespace Examen3EV_NS
+namespace Examen3EV_SSR2021
 {
-    public class estNot  // esta clase nos calcula las estadísticas de un conjunto de notas 
+    /// <summary>
+    /// esta clase nos calcula las estadísticas de un conjunto de notas
+    /// </summary>
+    public class EstadisticasNotasSSR2021  // esta clase nos calcula las estadísticas de un conjunto de notas 
     {
-        public int sus;  // Suspensos
-        public int apr;  // Aprobados
-        public int not;  // Notables
-        public int sbr;  // Sobresalientes
+        private int suspensos;  // Suspensos
+        private int aprobados;  // Aprobados
+        private int notables;  // Notables
+        private int sobresalientes;  // Sobresalientes
 
-        public double media; // Nota media
+        private double media; // Nota media
 
-        // Constructor vacío
-        public estNot()
+        const int Minimo = 0;
+        const int Maximo = 10;
+
+
+        public int Suspensos 
+        { 
+            get => suspensos; 
+            set
+            {
+                this.suspensos = value;
+            }
+        }
+        public int Aprobados 
+        { 
+            get => aprobados;
+            set
+            {
+                this.aprobados = value;
+            }
+        }
+        public int Notables 
+        { 
+            get => notables;
+            set
+            {
+                this.notables = value;
+            }
+        }
+        public int Sobresalientes 
+        { 
+            get => sobresalientes;
+            set
+            {
+                this.sobresalientes = value;
+            }
+        }
+        public double Media 
+        { 
+            get => media;
+            set
+            {
+                this.media = value;
+            }
+        }
+
+        /// <summary>
+        /// Constructor vacío
+        /// </summary>
+        public EstadisticasNotasSSR2021()
         {
-            sus = apr = not = sbr = 0;  // inicializamos las variables
-            media = 0.0;
+            Suspensos = Minimo;
+            Aprobados = Minimo;
+            Notables = Minimo; 
+            Sobresalientes = Minimo;  // inicializamos las variables
+            Media = 0.0;
         }
 
         // Constructor a partir de un array, calcula las estadísticas al crear el objeto
-        public estNot(List<int> listnot)
+        /// <summary>
+        /// Constructor a partir de un array, calcula las estadísticas al crear el objeto
+        /// </summary>
+        /// <param name="ListaNotasSSR2021"></param>
+        public EstadisticasNotasSSR2021(List<int> ListaNotasSSR2021)
         {
-            media = 0.0;
-
-            for (int i = 0; i < listnot.Count; i++)
-            {
-                if (listnot[i] < 5) sus++;              // Por debajo de 5 suspenso
-                else if (listnot[i] > 5 && listnot[i] < 7) apr++;// Nota para aprobar: 5
-                else if (listnot[i] > 7 && listnot[i] < 9) not++;// Nota para notable: 7
-                else if (listnot[i] > 9) sbr++;         // Nota para sobresaliente: 9
-
-                media = media + listnot[i];
-            }
-
-            media = media / listnot.Count;
+            NotasEsperadasSSR2021(ListaNotasSSR2021);
         }
 
+        public void NotasEsperadasSSR2021(List<int> ListaNotasSSR2021)
+        {
+
+            for (int i = 0; i < ListaNotasSSR2021.Count; i++)
+            {
+                if (ListaNotasSSR2021[i] < 5) Suspensos++;              // Por debajo de 5 suspenso
+                else if (ListaNotasSSR2021[i] > 5 && ListaNotasSSR2021[i] < 7) Aprobados++;// Nota para aprobar: 5
+                else if (ListaNotasSSR2021[i] > 7 && ListaNotasSSR2021[i] < 9) Notables++;// Nota para notable: 7
+                else if (ListaNotasSSR2021[i] >= 9) Sobresalientes++;         // Nota para sobresaliente: 9
+            }
+
+        }
+
+        public double MediaNotas(List<int> ListaNotasSSR2021)
+        {
+            Media = 0.0;
+
+            for (int i = 0; i < ListaNotasSSR2021.Count; i++)
+            {
+                if (ListaNotasSSR2021[i] < 5) Suspensos++;              // Por debajo de 5 suspenso
+                else if (ListaNotasSSR2021[i] > 5 && ListaNotasSSR2021[i] < 7) Aprobados++;// Nota para aprobar: 5
+                else if (ListaNotasSSR2021[i] > 7 && ListaNotasSSR2021[i] < 9) Notables++;// Nota para notable: 7
+                else if (ListaNotasSSR2021[i] >= 9) Sobresalientes++;         // Nota para sobresaliente: 9
+
+                Media = Media + ListaNotasSSR2021[i];
+            }
+
+            Media = Media / ListaNotasSSR2021.Count;
+
+            return Media;
+        }
 
         // Para un conjunto de listnot, calculamos las estadísticas
         // calcula la media y el número de suspensos/aprobados/notables/sobresalientes
         //
-        // El método devuelve -1 si ha habido algún problema, la media en caso contrario	
-        public double calcEst(List<int> listnot)
+        // El método devuelve -1 si ha habido algún problema, la media en caso contrario
+        /// <summary>
+        /// calculamos las estadisticas para un conjunto de listnot
+        /// calcula la media y el numero de suspensos/aprobados/notables/sobresalientes
+        /// </summary>
+        /// <param name="ListaNotasSSR2021"></param>
+        /// <returns>devuelve la media</returns>
+        public double CalcularEstadisticas(List<int> ListaNotasSSR2021)
         {                                 
-            media = 0.0;
+            Media = 0.0;
 
             // TODO: hay que modificar el tratamiento de errores para generar excepciones
             //
-            if (listnot.Count <= 0)  // Si la lista no contiene elementos, devolvemos un error
-                return -1;
-
-            for (int i=0;i<10;i++)
-                if (listnot[i] < 0 || listnot[i] > 10)      // comprobamos que las not están entre 0 y 10 (mínimo y máximo), si no, error
-                return -1;
-
-            for (int i = 0; i < listnot.Count; i++)
+            if (ListaNotasSSR2021.Count <= Minimo)  // Si la lista no contiene elementos, devolvemos un error
             {
-                if (listnot[i] < 5) sus++;              // Por debajo de 5 suspenso
-                else if (listnot[i] >= 5 && listnot[i] < 7) apr++;// Nota para aprobar: 5
-                else if (listnot[i] >= 7 && listnot[i] < 9) not++;// Nota para notable: 7
-                else if (listnot[i] > 9) sbr++;         // Nota para sobresaliente: 9
+                throw new ArgumentOutOfRangeException("Fuera de rango");
+            }
+                
 
-                media = media + listnot[i];
+            for (int i = 0; i < Maximo; i++)
+            {
+                if (ListaNotasSSR2021[i] < Minimo || ListaNotasSSR2021[i] > Maximo)    // comprobamos que las not están entre 0 y 10 (mínimo y máximo), si no, error
+                {
+                    throw new ArgumentOutOfRangeException("Fuera de rango");
+                }
+                    
             }
 
-            media = media / listnot.Count;
-
-            return media;
+            return Media;
         }
     }
 }
